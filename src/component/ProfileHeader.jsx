@@ -16,7 +16,7 @@ const ProfileHeader = (dash) => {
         const value = e.target.value;
         console.log(e.target.value);
         if (value == "logout") {
-            localStorage.removeItem("loginUser");
+            localStorage.removeItem("accessToken");
             navigate('/login');
         }
         if (value == "edit") {

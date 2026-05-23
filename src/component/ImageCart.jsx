@@ -1,6 +1,4 @@
-function ImageCart() {
-
-    const loginUser = JSON.parse(localStorage.getItem("loginUser"));
+function ImageCart(loginUser) {
 
     return (
         <div className="max-w-sm mx-auto bg-white rounded-2xl shadow-md overflow-hidden">

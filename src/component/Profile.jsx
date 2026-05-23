@@ -3,9 +3,8 @@ import { useNavigate } from "react-router";
 import Table from "./Table";
 import ImageCart from "./ImageCart";
 
-const Profile = () => {
+const Profile = ({ logUserFormData }) => {
     const navigate = useNavigate();
-    const [profileData, setProfileData] = useState()
 
 
 
@@ -44,15 +43,9 @@ const Profile = () => {
 
     ];
 
-    useEffect(() => {
-        let user = JSON.parse(localStorage.getItem("loginUser"));
-        if (user) {
-            setProfileData([user]);
-        }
-    }, [])
     return (
 
-        !profileData ? <div>
+        !logUserFormData ? <div>
             Loading....
         </div> :
             // <div className="min-h-screen bg-slate-100 p-6 w-full">
@@ -208,10 +201,12 @@ const Profile = () => {
 
             <div className="w-full flex gap-25">
                 <div className="w-1/12">
-                    <Table headings={columns} data={profileData} />
+                    <Table headings={columns} data={logUserFormData} />
                 </div>
                 <div className="flex-1">
-                    <ImageCart />
+                    <ImageCart
+                        loginUser={logUserFormData[0]}
+                    />
                 </div>
 
             </div>

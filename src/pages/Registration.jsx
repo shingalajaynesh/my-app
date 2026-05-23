@@ -69,56 +69,63 @@ const Registration = (props) => {
 
         e.preventDefault();
 
-        try {
+        if (formData.password === formData.rePassword) {
 
-            // Edit User
-            if (props.userData) {
+            try {
 
-                const response = await fetch(
-                    'http://localhost:3000/edituser',
-                    {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(formData)
+                // Edit User
+                if (props.userData) {
+
+                    const response = await fetch(
+                        'http://localhost:3000/edituser',
+                        {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(formData)
+                        }
+                    );
+
+                    const data = await response.json();
+
+                    alert(data.message);
+
+                    loginNavigate('/login');
+
+                }
+
+                // Register User
+                else {
+
+                    const response = await fetch(
+                        'http://localhost:3000/registration',
+                        {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(formData)
+                        }
+                    );
+
+                    const data = await response.json();
+
+                    alert(data.message);
+                    if (data.status) {
+                        loginNavigate('/login');
                     }
-                );
+                }
 
-                const data = await response.json();
+            } catch (error) {
 
-                alert(data.message);
+                console.log(error);
 
-                loginNavigate('/login');
-
+                alert("Something went wrong");
             }
-
-            // Register User
-            else {
-
-                const response = await fetch(
-                    'http://localhost:3000/registration',
-                    {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(formData)
-                    }
-                );
-
-                const data = await response.json();
-
-                alert(data.message);
-
-                loginNavigate('/login');
-            }
-
-        } catch (error) {
-
-            console.log(error);
-
-            alert("Something went wrong");
+        }
+        else {
+            alert("Enter a Vaild Passeord & Re-Password")
         }
     };
 
