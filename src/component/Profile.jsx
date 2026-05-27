@@ -13,6 +13,10 @@ const Profile = ({ logUserFormData }) => {
         navigate('/edit');
     }
 
+    const uploadImage = () => {
+        navigate('/uploadpost');
+    }
+
     const columns = [
         { key: "fName", label: "First Name" },
         { key: "mName", label: "Middle Name" },
@@ -37,9 +41,25 @@ const Profile = ({ logUserFormData }) => {
                     >
                         Edit
                     </button>
+
+                )
+            }
+        },
+        {
+            key: 'uploadImage', label: 'Action',
+            render: (row) => {
+                return (
+                    <button
+                        onClick={() => uploadImage(row)}
+                        className="rounded-lg bg-blue-500 px-4 py-2 text-sm font-medium text-white transition duration-300 hover:bg-blue-600 hover:scale-105"
+                    >
+                        Add Image
+                    </button>
+
                 )
             }
         }
+
 
     ];
 

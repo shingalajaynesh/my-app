@@ -17,7 +17,6 @@ const makeApi = async (url, method, data = null) => {
 export const getAllUsers = async () => {
     try {
         const { data } = await makeApi('users', 'GET')
-        console.log('response', data)
         return data
     }
     catch (e) {
@@ -57,3 +56,84 @@ export const getProfile = async () => {
         console.log(e);
     }
 };
+
+export const getUserPost = async () => {
+
+    try {
+
+        const { data } = await makeApi(
+            'posts',
+            'GET'
+        );
+
+        return data;
+
+    } catch (e) {
+
+        console.log(e);
+    }
+};
+
+export const uploadpost = async () => {
+
+    try {
+
+        const { data } = await makeApi(
+            'uploadpost',
+            'POST'
+        );
+
+        return data;
+
+    } catch (e) {
+
+        console.log(e);
+    }
+};
+
+export const postLikeUnlike = async (postId) => {
+    try {
+        const { data } = await makeApi('post_like', 'POST', { post_id: postId })
+        return data
+    } catch (e) {
+        console.error(e)
+    }
+}
+
+export const addComment = async (postId, comment) => {
+
+    try {
+
+        const { data } = await makeApi(
+            'add_comment',
+            'POST',
+            {
+                post_id: postId,
+                comment
+            }
+        )
+
+        return data
+
+    } catch (e) {
+
+        console.log(e)
+    }
+}
+
+export const getComments = async (postId) => {
+
+    try {
+
+        const { data } = await makeApi(
+            `comments/${postId}`,
+            'GET'
+        )
+
+        return data
+
+    } catch (e) {
+
+        console.log(e)
+    }
+}
