@@ -1,237 +1,228 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import Table from "./Table";
-import ImageCart from "./ImageCart";
+import ImageCart from "./ImageCard";
 
 const Profile = ({ logUserFormData }) => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
+  const editData = (user) => {
+    localStorage.setItem("editUser", JSON.stringify(user));
+    navigate("/edit");
+  };
 
+  const uploadImage = () => {
+    navigate("/uploadpost");
+  };
 
-    const editData = (user) => {
-        localStorage.setItem('editUser', JSON.stringify(user));
-        navigate('/edit');
-    }
+  const columns = [
+    { key: "fName", label: "First Name" },
+    { key: "mName", label: "Middle Name" },
+    { key: "lName", label: "Last Name" },
+    { key: "dob", label: "DOB" },
+    { key: "hobby", label: "Hobby" },
+    { key: "gender", label: "Gender" },
+    { key: "address", label: "Address" },
+    {
+      key: "role",
+      label: "Role",
+      render: ({ role }) => {
+        return role == "admin" ? <b>{role}</b> : role;
+      },
+    },
+    {
+      key: "Action",
+      label: "Action",
+      render: (row) => {
+        return (
+          <button
+            onClick={() => editData(row)}
+            className="rounded-lg bg-blue-500 px-4 py-2 text-sm font-medium text-white transition duration-300 hover:bg-blue-600 hover:scale-105"
+          >
+            Edit
+          </button>
+        );
+      },
+    },
+    {
+      key: "uploadImage",
+      label: "Action",
+      render: (row) => {
+        return (
+          <button
+            onClick={() => uploadImage(row)}
+            className="rounded-lg bg-blue-500 px-4 py-2 text-sm font-medium text-white transition duration-300 hover:bg-blue-600 hover:scale-105"
+          >
+            Add Image
+          </button>
+        );
+      },
+    },
+  ];
 
-    const uploadImage = () => {
-        navigate('/uploadpost');
-    }
+  return !logUserFormData ? (
+    <div>Loading....</div>
+  ) : (
+    // <div className="min-h-screen bg-slate-100 p-6 w-full">
 
-    const columns = [
-        { key: "fName", label: "First Name" },
-        { key: "mName", label: "Middle Name" },
-        { key: "lName", label: "Last Name" },
-        { key: "dob", label: "DOB" },
-        { key: "hobby", label: "Hobby" },
-        { key: "gender", label: "Gender" },
-        { key: "address", label: "Address" },
-        {
-            key: "role", label: "Role",
-            render: ({ role }) => {
-                return role == 'admin' ? <b>{role}</b> : role
-            }
-        },
-        {
-            key: 'Action', label: 'Action',
-            render: (row) => {
-                return (
-                    <button
-                        onClick={() => editData(row)}
-                        className="rounded-lg bg-blue-500 px-4 py-2 text-sm font-medium text-white transition duration-300 hover:bg-blue-600 hover:scale-105"
-                    >
-                        Edit
-                    </button>
+    //     <div className="mx-auto max-w-7xl rounded-2xl bg-white p-6 shadow-xl">
 
-                )
-            }
-        },
-        {
-            key: 'uploadImage', label: 'Action',
-            render: (row) => {
-                return (
-                    <button
-                        onClick={() => uploadImage(row)}
-                        className="rounded-lg bg-blue-500 px-4 py-2 text-sm font-medium text-white transition duration-300 hover:bg-blue-600 hover:scale-105"
-                    >
-                        Add Image
-                    </button>
+    //         {/* Header */}
+    //         <div className="mb-6 flex items-center justify-between">
 
-                )
-            }
-        }
+    //             <div>
+    //                 <h1 className="text-3xl font-bold text-slate-800">
+    //                     User Dashboard
+    //                 </h1>
 
+    //                 <p className="mt-1 text-sm text-slate-500">
+    //                     Manage your users easily
+    //                 </p>
+    //             </div>
 
-    ];
+    //             <button
+    //                 onClick={ResetData}
+    //                 className="rounded-xl bg-red-500 px-5 py-2 text-sm font-semibold text-white transition hover:bg-red-600"
+    //             >
+    //                 Logout
+    //             </button>
 
-    return (
+    //         </div>
 
-        !logUserFormData ? <div>
-            Loading....
-        </div> :
-            // <div className="min-h-screen bg-slate-100 p-6 w-full">
+    //         {/* Table Container */}
+    //         <div className="overflow-hidden rounded-2xl border border-slate-200">
 
-            //     <div className="mx-auto max-w-7xl rounded-2xl bg-white p-6 shadow-xl">
+    //             <div className="overflow-x-auto">
 
-            //         {/* Header */}
-            //         <div className="mb-6 flex items-center justify-between">
+    //                 <table className="min-w-full">
 
-            //             <div>
-            //                 <h1 className="text-3xl font-bold text-slate-800">
-            //                     User Dashboard
-            //                 </h1>
+    //                     {/* Head */}
+    //                     <thead className="bg-slate-800 text-white">
 
-            //                 <p className="mt-1 text-sm text-slate-500">
-            //                     Manage your users easily
-            //                 </p>
-            //             </div>
+    //                         <tr>
 
-            //             <button
-            //                 onClick={ResetData}
-            //                 className="rounded-xl bg-red-500 px-5 py-2 text-sm font-semibold text-white transition hover:bg-red-600"
-            //             >
-            //                 Logout
-            //             </button>
+    //                             <th className="px-6 py-4 text-left text-sm font-semibold">
+    //                                 First Name
+    //                             </th>
 
-            //         </div>
+    //                             <th className="px-6 py-4 text-left text-sm font-semibold">
+    //                                 Middle Name
+    //                             </th>
 
-            //         {/* Table Container */}
-            //         <div className="overflow-hidden rounded-2xl border border-slate-200">
+    //                             <th className="px-6 py-4 text-left text-sm font-semibold">
+    //                                 Last Name
+    //                             </th>
 
-            //             <div className="overflow-x-auto">
+    //                             <th className="px-6 py-4 text-left text-sm font-semibold">
+    //                                 DOB
+    //                             </th>
 
-            //                 <table className="min-w-full">
+    //                             <th className="px-6 py-4 text-left text-sm font-semibold">
+    //                                 Hobby
+    //                             </th>
 
-            //                     {/* Head */}
-            //                     <thead className="bg-slate-800 text-white">
+    //                             <th className="px-6 py-4 text-left text-sm font-semibold">
+    //                                 Gender
+    //                             </th>
 
-            //                         <tr>
+    //                             <th className="px-6 py-4 text-left text-sm font-semibold">
+    //                                 Address
+    //                             </th>
 
-            //                             <th className="px-6 py-4 text-left text-sm font-semibold">
-            //                                 First Name
-            //                             </th>
+    //                             <th className="px-6 py-4 text-left text-sm font-semibold">
+    //                                 Role
+    //                             </th>
 
-            //                             <th className="px-6 py-4 text-left text-sm font-semibold">
-            //                                 Middle Name
-            //                             </th>
+    //                             <th className="px-6 py-4 text-center text-sm font-semibold">
+    //                                 Action
+    //                             </th>
 
-            //                             <th className="px-6 py-4 text-left text-sm font-semibold">
-            //                                 Last Name
-            //                             </th>
+    //                         </tr>
 
-            //                             <th className="px-6 py-4 text-left text-sm font-semibold">
-            //                                 DOB
-            //                             </th>
+    //                     </thead>
 
-            //                             <th className="px-6 py-4 text-left text-sm font-semibold">
-            //                                 Hobby
-            //                             </th>
+    //                     {/* Body */}
+    //                     <tbody className="divide-y divide-slate-200 bg-white">
 
-            //                             <th className="px-6 py-4 text-left text-sm font-semibold">
-            //                                 Gender
-            //                             </th>
+    //                         {profileData.map((v, index) => {
 
-            //                             <th className="px-6 py-4 text-left text-sm font-semibold">
-            //                                 Address
-            //                             </th>
+    //                             return (
 
-            //                             <th className="px-6 py-4 text-left text-sm font-semibold">
-            //                                 Role
-            //                             </th>
+    //                                 <tr
+    //                                     key={index}
+    //                                     className="transition hover:bg-slate-50"
+    //                                 >
 
-            //                             <th className="px-6 py-4 text-center text-sm font-semibold">
-            //                                 Action
-            //                             </th>
+    //                                     <td className="px-6 py-4 text-sm text-slate-700">
+    //                                         {v.fName}
+    //                                     </td>
 
-            //                         </tr>
+    //                                     <td className="px-6 py-4 text-sm text-slate-700">
+    //                                         {v.mName}
+    //                                     </td>
 
-            //                     </thead>
+    //                                     <td className="px-6 py-4 text-sm text-slate-700">
+    //                                         {v.lName}
+    //                                     </td>
 
-            //                     {/* Body */}
-            //                     <tbody className="divide-y divide-slate-200 bg-white">
+    //                                     <td className="px-6 py-4 text-sm text-slate-700">
+    //                                         {v.dob}
+    //                                     </td>
 
-            //                         {profileData.map((v, index) => {
+    //                                     <td className="px-6 py-4 text-sm text-slate-700">
+    //                                         {v.hobby.join(', ')}
+    //                                     </td>
 
-            //                             return (
+    //                                     <td className="px-6 py-4 text-sm text-slate-700">
+    //                                         {v.gender}
+    //                                     </td>
 
-            //                                 <tr
-            //                                     key={index}
-            //                                     className="transition hover:bg-slate-50"
-            //                                 >
+    //                                     <td className="px-6 py-4 text-sm text-slate-700">
+    //                                         {v.address}
+    //                                     </td>
 
-            //                                     <td className="px-6 py-4 text-sm text-slate-700">
-            //                                         {v.fName}
-            //                                     </td>
+    //                                     <td className="px-6 py-4 text-sm text-slate-700">
+    //                                         {v.role}
+    //                                     </td>
 
-            //                                     <td className="px-6 py-4 text-sm text-slate-700">
-            //                                         {v.mName}
-            //                                     </td>
+    //                                     <td className="px-6 py-4 text-center">
 
-            //                                     <td className="px-6 py-4 text-sm text-slate-700">
-            //                                         {v.lName}
-            //                                     </td>
+    //                                         <button
+    //                                             onClick={() => editData(v)}
+    //                                             className="rounded-lg bg-blue-500 px-4 py-2 text-sm font-medium text-white transition duration-300 hover:bg-blue-600 hover:scale-105"
+    //                                         >
+    //                                             Edit
+    //                                         </button>
 
-            //                                     <td className="px-6 py-4 text-sm text-slate-700">
-            //                                         {v.dob}
-            //                                     </td>
+    //                                     </td>
 
-            //                                     <td className="px-6 py-4 text-sm text-slate-700">
-            //                                         {v.hobby.join(', ')}
-            //                                     </td>
+    //                                 </tr>
 
-            //                                     <td className="px-6 py-4 text-sm text-slate-700">
-            //                                         {v.gender}
-            //                                     </td>
+    //                             )
 
-            //                                     <td className="px-6 py-4 text-sm text-slate-700">
-            //                                         {v.address}
-            //                                     </td>
+    //                         })}
 
-            //                                     <td className="px-6 py-4 text-sm text-slate-700">
-            //                                         {v.role}
-            //                                     </td>
+    //                     </tbody>
 
-            //                                     <td className="px-6 py-4 text-center">
+    //                 </table>
 
-            //                                         <button
-            //                                             onClick={() => editData(v)}
-            //                                             className="rounded-lg bg-blue-500 px-4 py-2 text-sm font-medium text-white transition duration-300 hover:bg-blue-600 hover:scale-105"
-            //                                         >
-            //                                             Edit
-            //                                         </button>
+    //             </div>
 
-            //                                     </td>
+    //         </div>
 
-            //                                 </tr>
+    //     </div>
 
-            //                             )
+    // </div>
 
-            //                         })}
-
-            //                     </tbody>
-
-            //                 </table>
-
-            //             </div>
-
-            //         </div>
-
-            //     </div>
-
-            // </div>
-
-            <div className="w-full flex gap-25">
-                <div className="w-1/12">
-                    <Table headings={columns} data={logUserFormData} />
-                </div>
-                <div className="flex-1">
-                    <ImageCart
-                        loginUser={logUserFormData[0]}
-                    />
-                </div>
-
-            </div>
-
-    )
-}
+    <div className="w-full flex gap-25">
+      <div className="w-1/12">
+        <Table headings={columns} data={logUserFormData} />
+      </div>
+      <div className="flex-1">
+        <ImageCart loginUser={logUserFormData[0]} />
+      </div>
+    </div>
+  );
+};
 
 export default Profile;

@@ -2,116 +2,84 @@ import { useNavigate } from "react-router";
 import Profile from "../component/Profile";
 import ProfileHeader from "../component/ProfileHeader";
 import { useEffect, useState } from "react";
-import {
-    getAllUsers,
-    getProfile
-} from "../services";
+import { getProfile } from "../services";
 
 function Dashboard() {
+  const navigate = useNavigate();
 
-    const navigate = useNavigate();
+  const [logUserFormData, setLogUserFormData] = useState([]);
 
-    const [logUserFormData, setLogUserFormData] = useState([]);
+  // const [logUser, setLogUser] = useState(null);
 
-    const [logUser, setLogUser] = useState(null);
+  // Fetch All Users
+  // const fetchAllUsers = async () => {
 
-    // Fetch All Users
-    const fetchAllUsers = async () => {
+  //     try {
 
-        try {
+  //         const data = await getAllUsers();
 
-            const data = await getAllUsers();
+  //         setLogUserFormData(data.users);
 
-            setLogUserFormData(data.users);
+  //     } catch (error) {
 
-        } catch (error) {
+  //         console.log(error);
 
-            console.log(error);
+  //         localStorage.removeItem(
+  //             "accessToken"
+  //         );
 
-            localStorage.removeItem(
-                "accessToken"
-            );
+  //         navigate('/login');
+  //     }
+  // };
 
-            navigate('/login');
-        }
-    };
+  // Fetch Logged In User
+  const fetchProfile = async () => {
+    try {
+      const data = await getProfile();
 
-    // Fetch Logged In User
-    const fetchProfile = async () => {
+      const user = data.user;
 
-        try {
+      setLogUserFormData([user]);
+    } catch (error) {
+      console.log(error);
 
-            const data = await getProfile();
+      localStorage.removeItem("accessToken");
 
-            const user = data.user;
+      navigate("/login");
+    }
+  };
 
-            // Store logged in user
-            setLogUser(user);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
 
-            // Admin
-            if (user.role === 'admin') {
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
 
-                fetchAllUsers();
-            }
+    // No token
+    if (!token) {
+      navigate("/login");
 
-            // Normal User
-            else {
+      return;
+    }
 
-                setLogUserFormData([user]);
-            }
+    fetchProfile();
+  }, []);
 
-        } catch (error) {
+  // useEffect(() => {
+  //     if (logUser && logUser.id)
+  //         startWebSocketConnection()
+  // }, [logUser, startWebSocketConnection])
 
-            console.log(error);
+  return (
+    <div className="w-full flex gap-2 flex-wrap">
+      <div className="w-full">
+        <ProfileHeader logUserFormData={logUserFormData[0]} />
+      </div>
 
-            localStorage.removeItem(
-                "accessToken"
-            );
-
-            navigate('/login');
-        }
-    };
-
-    useEffect(() => {
-
-        const token = localStorage.getItem(
-            "accessToken"
-        );
-
-        // No token
-        if (!token) {
-
-            navigate('/login');
-
-            return;
-        }
-
-        fetchProfile();
-
-    }, []);
-
-    return (
-
-        <div className="w-full flex gap-2 flex-wrap">
-
-            <div className="w-full">
-
-                <ProfileHeader
-                    logUser={logUser}
-                />
-
-            </div>
-
-            <div className="w-full">
-
-                <Profile
-                    logUserFormData={logUserFormData}
-                />
-
-            </div>
-
-        </div>
-    );
+      <div className="w-full">
+        <Profile logUserFormData={logUserFormData} />
+      </div>
+    </div>
+  );
 }
 
 export default Dashboard;
