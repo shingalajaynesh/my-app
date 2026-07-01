@@ -1,6 +1,6 @@
 import { memo, useEffect, useState, useCallback } from "react";
 import { getUserPost, postLikeUnlike } from "../services";
-import CommentSection from "./comment";
+import CommentSection from "./CommentSection";
 
 const PostCard = memo(({ value, doLikeUnlike }) => {
   console.log(`[PostCard] render id=${value.post_id} } count=${value.count}`);

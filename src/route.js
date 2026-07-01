@@ -1,5 +1,4 @@
 import { createBrowserRouter } from "react-router";
-import "./component/Profile";
 import Login from "./pages/Login";
 import Registration from "./pages/Registration";
 import Edit from "./component/Edit";
