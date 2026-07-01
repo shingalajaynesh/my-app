@@ -26,8 +26,9 @@ const Profile = ({ logUserFormData }) => {
     {
       key: "role",
       label: "Role",
-      render: ({ role }) => {
-        return role == "admin" ? <b>{role}</b> : role;
+      render: (row) => {
+        const role = row?.role;
+        return role?.toLowerCase() === "admin" ? <b>{role}</b> : role;
       },
     },
     {
@@ -59,6 +60,8 @@ const Profile = ({ logUserFormData }) => {
       },
     },
   ];
+
+  console.log("[Profile Component] logUserFormData:", logUserFormData);
 
   return !logUserFormData ? (
     <div>Loading....</div>
@@ -214,12 +217,16 @@ const Profile = ({ logUserFormData }) => {
 
     // </div>
 
-    <div className="w-full flex gap-25">
-      <div className="w-1/12">
-        <Table headings={columns} data={logUserFormData} />
-      </div>
+    <div className="max-w-7xl mx-auto px-4 py-6 w-full flex flex-col md:flex-row gap-6">
+      {/* Social Media Feed (Left Side) */}
       <div className="flex-1">
         <ImageCart loginUser={logUserFormData[0]} />
+      </div>
+
+      {/* Profile Details Sidebar (Right Side) */}
+      <div className="w-full md:w-96 bg-white rounded-2xl shadow-md p-6 border border-slate-100 h-fit">
+        <h2 className="text-xl font-bold text-slate-800 mb-4">Profile Details</h2>
+        <Table headings={columns} data={logUserFormData} />
       </div>
     </div>
   );

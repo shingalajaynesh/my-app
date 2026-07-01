@@ -88,15 +88,19 @@ function ImageCart({ loginUser }) {
       );
 
       socket.onmessage = (body) => {
-        const data = JSON.parse(body.data);
-        console.log("qwe-*-*-*-*", data);
-        switch (data.topic) {
-          case "POST_LIKE":
-            updatePostLikeCount(data.data.postid, data.data.count);
-            break;
-          case "POST_LIKE_OWNER":
-            alert("your post has been like");
-            break;
+        try {
+          const data = JSON.parse(body.data);
+          console.log("qwe-*-*-*-*", data);
+          switch (data.topic) {
+            case "POST_LIKE":
+              updatePostLikeCount(data.data.postid, data.data.count);
+              break;
+            case "POST_LIKE_OWNER":
+              alert("your post has been liked");
+              break;
+          }
+        } catch (error) {
+          console.log("WebSocket raw message received:", body.data);
         }
       };
     };

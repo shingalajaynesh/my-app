@@ -14,7 +14,7 @@ const Registration = (props) => {
     hobby: [],
     gender: "",
     address: "",
-    role: "",
+    role: "user",
   });
 
   useEffect(() => {
@@ -347,8 +347,8 @@ const Registration = (props) => {
                     value={formData.role}
                     className="w-full border border-slate-300 rounded-lg px-4 py-2 outline-none focus:ring-2 focus:ring-blue-400"
                   >
-                    <option value="admin">Admin</option>
                     <option value="user">User</option>
+                    <option value="admin">Admin</option>
                   </select>
                 </td>
               </tr>
